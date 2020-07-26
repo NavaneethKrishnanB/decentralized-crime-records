@@ -28,9 +28,29 @@ class App extends React.Component {
   search(index)
   {
     console.log(index);
-    var rec = this.state.records.filter((obj)=>obj.id==index)
+    let start=0,end=rec.length;
+    let ind=-1;
+    while(start<=end)
+    {
+        let mid=(start+end)/2;
+        if(this.state.records[mid].id==index)
+        {
+          ind = mid;
+          break;
+        }
+        else if(this.state.records[mid].id>index)
+        {
+           end = mid-1;
+        }
+        else
+        {
+            start = mid+1;
+        }
+    }
+    if(ind!=-1)
+    var rec = this.state.records[ind];
     console.log("rec",rec);
-    this.setState({rec:rec[0]});
+    this.setState({rec:rec});
   }
   async componentDidMount()
   {
@@ -97,6 +117,7 @@ class App extends React.Component {
       }
      
     });
+    this.state.records.sort((a,b)=>{ return a.id-b.id});
   }
   async loadWeb3()
   {
